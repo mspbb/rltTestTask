@@ -1,0 +1,31 @@
+.wrapper {
+  --borderColor: #3a3a3a;
+  --bgColor: #262626;
+  @mixin boxStyle {
+    border: 1px solid var(--borderColor);
+    background: var(--bgColor);
+    border-radius: 5px;
+  }
+
+  padding: 10px;
+  background: #000;
+  display: grid;
+  grid-template-rows: 3fr 3fr 1fr;
+  grid-template-columns: 1fr 3fr;
+  height: 100vh;
+  gap: 10px;
+  grid-template-areas: "A B" "A B" "C C";
+
+  .leftDisplay {
+    grid-area: A;
+    @include boxStyle();
+  }
+  .inventoryBlock {
+    grid-area: B;
+    @include boxStyle();
+  }
+  .input {
+    grid-area: C;
+    @include boxStyle();
+  }
+}
