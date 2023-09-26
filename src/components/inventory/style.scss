@@ -10,19 +10,50 @@
 
     .modal {
       position: absolute;
-      background: #fff;
-      width: 200px;
-      height: 300px;
-      border: #fff;
       right: 0;
       top: 0;
+      width: 200px;
+      height: 300px;
+
+      background: var(--bgColor);
+      border: 2px solid var(--borderColor);
+      padding: 10px;
+      color: #fff;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
       user-select: none;
+      &__removeBlock {
+        position: relative;
+        height: 50px;
+        width: 100%;
+      }
       &__removeButton {
-        margin-top: 100%;
-        margin-bottom: 0;
+        height: 100%;
         background: #fa7272;
         width: 100%;
+      }
+      &__closeButton {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        cursor: pointer;
+      }
+      &__confirm {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 0;
+        input {
+          width: 100%;
+          height: 50%;
+        }
+        button {
+          width: 50%;
+          height: 50%;
+        }
       }
     }
   }

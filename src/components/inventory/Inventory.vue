@@ -135,16 +135,26 @@
         v-on:click="select(block)"
       >
         {{ block.name }}
+        {{ block.count }}
       </div>
     </div>
 
     <div class="modal" v-if="showModal">
+      <div class="modal__closeButton" @click="closeModal">Close</div>
       <div>{{ selectedBlock.name }}</div>
       <div>path - {{ selectedBlock.path }}</div>
       <div>color - {{ selectedBlock.color }}</div>
-      <button class="modal__removeButton" @click="removeItem(selectedBlock)">
-        Remove item
-      </button>
+      <div>count - {{ selectedBlock.count }}</div>
+      <div class="modal__removeBlock">
+        <button class="modal__removeButton" @click="removeItem()">
+          Remove item
+        </button>
+        <div class="modal__confirm" v-if="removeConfirmed">
+          <input type="number" v-model="numberForDelete" />
+          <button @click="confirmClose()">cancel</button
+          ><button @click="confirmConfirm(selectedBlock)">ok</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -157,6 +167,9 @@ let slotsArr = ref([]);
 let itemRefs = ref([]);
 
 let showModal = ref(false);
+let removeConfirmed = ref(false);
+let numberForDelete = ref(null);
+
 let selectedBlock = ref("");
 
 let itemsArr = ref([]);
@@ -166,9 +179,9 @@ if (localSave) {
   itemsArr.value = localSave._value;
 } else {
   itemsArr.value = [
-    { name: "first", path: 0, ref: 0, color: "green" },
-    { name: "second", path: 1, ref: 1, color: "green" },
-    { name: "third", path: 7, ref: 2, color: "green" },
+    { name: "first", path: 0, ref: 0, color: "green", count: 100 },
+    { name: "second", path: 1, ref: 1, color: "green", count: 100 },
+    { name: "third", path: 7, ref: 2, color: "green", count: 100 },
   ];
 }
 
@@ -198,7 +211,19 @@ function select(e) {
 }
 
 function removeItem(e) {
-  itemsArr.value = itemsArr.value.filter((T) => T !== e);
+  removeConfirmed.value = true;
+}
+function confirmClose() {
+  removeConfirmed.value = false;
+}
+function confirmConfirm(e) {
+  if (typeof numberForDelete.value == "number") {
+    selectedBlock.count = selectedBlock.count - numberForDelete.value;
+    removeConfirmed.value = false;
+    if (selectedBlock.count <= 0) {
+      itemsArr.value = itemsArr.value.filter((T) => T !== e);
+    }
+  }
   localStorage.setItem("itemSetting", JSON.stringify(itemsArr));
 }
 
@@ -207,6 +232,11 @@ function openModal() {
   if (!showModal.value) {
     showModal.value = true;
   }
+}
+
+function closeModal() {
+  showModal.value = false;
+  removeConfirmed.value = false;
 }
 
 function drag(e) {
