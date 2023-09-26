@@ -34,7 +34,14 @@
       &__removeButton {
         height: 100%;
         background: #fa7272;
+        border: none;
+        border-radius: 8px;
         width: 100%;
+        transition: all 0.3s;
+        &:hover {
+          background: #923a3a;
+          color: #fff;
+        }
       }
       &__closeButton {
         position: absolute;
@@ -43,13 +50,23 @@
         cursor: pointer;
       }
       &__confirm {
+        border-radius: 8px;
         width: 100%;
         height: 100%;
         position: absolute;
-        bottom: 0;
+        bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         input {
           width: 100%;
-          height: 50%;
+          border: none;
+          color: #fff;
+          padding: 5px;
+          background: var(--bgColor);
+          border: 2px solid var(--borderColor);
+          border-radius: 2px;
+          margin: 0 0 5px 0;
           &::-webkit-outer-spin-button,
           &::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -58,7 +75,20 @@
         }
         button {
           width: 50%;
-          height: 50%;
+          background: var(--bgColor);
+          border: 2px solid var(--borderColor);
+          border-radius: 2px;
+          padding: 5px;
+          color: #fff;
+          transition: all 0.3s;
+          &:first-child:hover {
+            background: #fff;
+            color: #262626;
+          }
+          &:last-child:hover {
+            background: #fa7272;
+            color: #fff;
+          }
         }
       }
     }
@@ -73,8 +103,20 @@
   }
   &__item {
     background: #8aa770;
+    padding: 10px;
+    border-radius: 5px;
     width: 50%;
     height: 50%;
     margin: auto auto;
+    position: relative;
+    .count {
+      border-radius: 0 0 4px 0;
+      color: #c8ddd6;
+      position: absolute;
+      background: #37442c;
+      padding: 5px;
+      bottom: 0px;
+      right: 0px;
+    }
   }
 }

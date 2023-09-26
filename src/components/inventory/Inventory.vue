@@ -124,20 +124,11 @@
       v-on:drop="dragDrop"
       v-on:dragover="allowDrop"
     ></div>
-    <div class="inventory__slot" v-on:drop="dragDrop" v-on:dragover="allowDrop">
-      <div
-        class="inventory__item"
-        v-for="block in itemsArr"
-        :key="block.name"
-        :ref="setItemRef"
-        draggable="true"
-        v-on:dragstart="drag(block)"
-        v-on:click="select(block)"
-      >
-        {{ block.name }}
-        {{ block.count }}
-      </div>
-    </div>
+    <div
+      class="inventory__slot"
+      v-on:drop="dragDrop"
+      v-on:dragover="allowDrop"
+    ></div>
 
     <div class="modal" v-if="showModal">
       <div class="modal__closeButton" @click="closeModal">Close</div>
@@ -146,15 +137,43 @@
       <div>color - {{ selectedBlock.color }}</div>
       <div>count - {{ selectedBlock.count }}</div>
       <div class="modal__removeBlock">
-        <button class="modal__removeButton" @click="removeItem()">
+        <button
+          class="modal__removeButton"
+          @click="removeItem()"
+          v-if="!removeConfirmed"
+        >
           Remove item
         </button>
+
         <div class="modal__confirm" v-if="removeConfirmed">
-          <input type="number" v-model="numberForDelete" />
-          <button @click="confirmClose()">cancel</button
-          ><button @click="confirmConfirm(selectedBlock)">ok</button>
+          <div class="modal__inputContainer">
+            <input
+              type="number"
+              v-model="numberForDelete"
+              placeholder="Кол-во для удаления"
+            />
+          </div>
+
+          <div class="modal__buttonContainer">
+            <button @click="confirmClose()">cancel</button
+            ><button @click="confirmConfirm(selectedBlock)">ok</button>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div
+    class="inventory__item"
+    v-for="block in itemsArr"
+    :key="block.name"
+    :ref="setItemRef"
+    draggable="true"
+    v-on:dragstart="drag(block)"
+    v-on:click="select(block)"
+  >
+    {{ block.name }}
+    <div class="count">
+      {{ block.count }}
     </div>
   </div>
 </template>
@@ -220,6 +239,8 @@ function confirmConfirm(e) {
     selectedBlock.count = selectedBlock.count - numberForDelete.value;
     removeConfirmed.value = false;
     if (selectedBlock.count <= 0) {
+      showModal.value = false;
+      selectedBlock.value = null;
       itemsArr.value = itemsArr.value.filter((T) => T !== e);
     }
   }
