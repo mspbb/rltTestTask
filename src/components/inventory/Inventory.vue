@@ -206,7 +206,6 @@ onMounted(() => {
 
 function select(e) {
   selectedBlock = e;
-  console.log(selectedBlock.name);
   openModal();
 }
 
@@ -244,6 +243,10 @@ function drag(e) {
 }
 function dragDrop(e) {
   e.preventDefault();
+  if (e.target.childNodes.length >= 1) {
+    console.log("no space");
+    return;
+  }
 
   if (e.target.classList.contains("inventory__slot")) {
     let data = targetForDrag.ref;
@@ -262,7 +265,6 @@ function dragDrop(e) {
         let data = targetForDrag.ref;
 
         e.appendChild(data);
-
         slotsArr.value.forEach((el) => {
           if (el == e.target) {
             targetForDrag.path = slotsArr.value.indexOf(el);
