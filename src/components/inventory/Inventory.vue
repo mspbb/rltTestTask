@@ -142,6 +142,9 @@
       <div>{{ selectedBlock.name }}</div>
       <div>path - {{ selectedBlock.path }}</div>
       <div>color - {{ selectedBlock.color }}</div>
+      <button class="modal__removeButton" @click="removeItem(selectedBlock)">
+        Remove item
+      </button>
     </div>
   </div>
 </template>
@@ -160,8 +163,6 @@ let itemsArr = ref([]);
 
 const localSave = JSON.parse(localStorage.getItem("itemSetting"));
 if (localSave) {
-  console.log(itemsArr.value);
-  console.log(localSave._value);
   itemsArr.value = localSave._value;
 } else {
   itemsArr.value = [
@@ -194,6 +195,11 @@ function select(e) {
   selectedBlock = e;
   console.log(selectedBlock.name);
   openModal();
+}
+
+function removeItem(e) {
+  itemsArr.value = itemsArr.value.filter((T) => T !== e);
+  localStorage.setItem("itemSetting", JSON.stringify(itemsArr));
 }
 
 function openModal() {

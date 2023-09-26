@@ -18,6 +18,12 @@
       top: 0;
 
       user-select: none;
+      &__removeButton {
+        margin-top: 100%;
+        margin-bottom: 0;
+        background: #fa7272;
+        width: 100%;
+      }
     }
   }
   &__slot {
